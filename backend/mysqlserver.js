@@ -9,7 +9,7 @@ let con;
 mysql.createConnection({
     host: "localhost",
     user: "root",
-    password: "8Jd$w2Lp!X5qZ9@c.",
+    password: "abc123",
     database: "healthify",
 })
     .then((connection) => {
@@ -124,7 +124,7 @@ app.get("/doctors", async (req, res) => {
 app.post("/login", async (req, res) => {
     try {
         const { username, password } = req.body;
-        const query = "SELECT * FROM Users WHERE user_id=? AND password=?";
+        const query = "SELECT * FROM Users WHERE email=? AND password=?";
         const [users] = await con.query(query, [username, password]);
         if (users.length === 0) {
             return res.status(400).send({ success: false, message: "Invalid id or password" });

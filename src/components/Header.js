@@ -33,7 +33,7 @@ const Header = ({ isLoggedIn }) => {
         <Link to="/reports" style={styles.link}>View Lab Reports</Link>
         <Link to="/ordermedicine" style={styles.link}>Order Medicines</Link>
         <Link to="/articles" style={styles.link}>Read Articles</Link>
-        <Link to="/contact" style={styles.link}>Chat With A Doctor</Link>
+        {/* <Link to="/contact" style={styles.link}>Chat With A Doctor</Link> */}
         <div style={styles.profileIconContainer} onClick={togglePopup}>
           <FaUserCircle size={24} style={styles.icon} />
           {showPopup && (

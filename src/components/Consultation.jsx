@@ -174,14 +174,14 @@ function Consultation() {
                             <p><strong>Condition:</strong> {patientDetails.condition}</p>
                         </div> */}
 
-                        <div className="consultation-actions">
+                        {/* <div className="consultation-actions">
                             <button
                                 className="action-btn"
                                 onClick={handleStartConsultation}
                             >
                                 Start Consultation
                             </button>
-                        </div>
+                        </div> */}
 
                         <div className="prescription-section">
                             <h3>Prescription</h3>
@@ -236,13 +236,13 @@ function Consultation() {
                 )}
 
                 <div className="interaction-settings">
-                    <div className="patient-interaction">
+                    {/* <div className="patient-interaction">
                         <h2>Patient Interaction</h2>
                         <FaStethoscope className="button-icon" />
                         <button className="chat-btn" onClick={() => navigate('/doctor/chats')}>
                             Chat with Patients
                         </button>
-                    </div>
+                    </div> */}
                     <div className="patient-history" style={{ marginTop: "40px" }}>
                         <h2>Patient History</h2>
                         <FaClipboardList className="button-icon" />

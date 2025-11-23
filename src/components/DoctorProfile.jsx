@@ -209,20 +209,20 @@ function DoctorHome() {
         </div>
 
         <div className="interaction-settings">
-          <div className="patient-interaction">
+          {/* <div className="patient-interaction">
             <h2>Patient Interaction</h2>
             <FaStethoscope className="button-icon" style={{ color: 'black', marginBottom: '10px' }} />
             <button className="chat-btn" onClick={() => navigate('/doctor/chats')}>
               Chat with Patients
             </button>
-          </div>
-          <div className="edit-profile">
+          </div> */}
+          {/* <div className="edit-profile">
             <h2>Profile Setting</h2>
             <FaUserEdit className="button-icon" style={{ color: 'black', marginBottom: '10px' }} />
             <button className="edit-profile-btn" onClick={handleEditProfileClick}>
               Edit Profile
             </button>
-          </div>
+          </div> */}
         </div>
 
         {showCancelPopup && (

@@ -8,7 +8,7 @@ let con;
 mysql.createConnection({
     host: "localhost",
     user: "root",
-    password: "8Jd$w2Lp!X5qZ9@c.",
+    password: "abc123",
     database: "healthify",
 })
     .then((connection) => {
@@ -128,6 +128,7 @@ app.get("/doctor/profile/:id", async (req, res) => {
 app.get('/api/doctor-profile/:id', async (req, res) => {
     try {
       const { id } = req.params;
+      console.log(id);
       const [user] = await con.query('Select a.*,u.* from users u join doctors a on a.user_id=u.user_id where a.user_id=?', [id]);
       if (user.length === 0) {
         return res.status(404).send('User not found');
@@ -143,7 +144,7 @@ app.get("/api/patients/:id", async (req, res) => {
     try {
         const doctorId = req.params.id;
         const query = `
-            Select u.full_name,DATE_FORMAT(u.date_of_birth, '%Y-%m-%d') AS date_of_birth,u.contact_number,a.status,a.appointment_time,p.patient_id,u.profile,a.appointment_id from 
+            Select u.full_name,DATE_FORMAT(u.date_of_birth, '%Y-%m-%d') AS date_of_birth,u.contact_number,a.status,a.appointment_time,p.patient_id,a.appointment_id from 
             users u join patients p on u.user_id=p.user_id
             join appointments a on
             p.patient_id=a.patient_id where a.doctor_id=?;

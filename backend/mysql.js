@@ -8,7 +8,7 @@ let con;
 mysql.createConnection({
     host: "localhost",
     user: "root",
-    password: "8Jd$w2Lp!X5qZ9@c.",
+    password: "abc123",
     database: "healthify",
 })
     .then((connection) => {

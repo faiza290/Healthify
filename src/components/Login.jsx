@@ -55,8 +55,8 @@ const LoginPage = () => {
       <h2 style={styles.heading}>Login</h2>
       <form onSubmit={handleLogin} style={styles.form}>
         <input
-          type="text"
-          placeholder="User Id"
+          type="email"
+          placeholder="Email"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
           style={styles.input}

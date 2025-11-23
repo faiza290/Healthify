@@ -32,7 +32,7 @@ const Header = ({ isLoggedIn }) => {
         <Link to="/doctor/patients" style={styles.link}>View Patients</Link>
         <Link to="/doctor/consultations" style={styles.link}>Consultations</Link>
         {/* <Link to="/doctor/reports" style={styles.link}>Patient Reports</Link> */}
-        <Link to="/doctor/chats" style={styles.link}>Chat with Patients</Link>
+        {/* <Link to="/doctor/chats" style={styles.link}>Chat with Patients</Link> */}
         <div style={styles.profileIconContainer} onClick={togglePopup}>
           <FaUserCircle size={24} style={styles.icon} />
           {showPopup && (
