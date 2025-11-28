@@ -6,7 +6,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { AuthProvider } from '../components/AuthContext';
 import Consultation from '../components/Consultation';
 import DoctorProfile from '../components/DoctorProfile';        
-import DoctorProfilePage from '../components/DoctorProfile7';    //This is the actual profile page
+import DoctorProfilePage from '../components/DoctorProfile7';
 import MySchedule from '../components/MySchedule';
 import ViewPatients from '../components/ViewPatients';
 import Footer from '../components/DFooter';
@@ -84,14 +84,10 @@ describe('Doctor Components - Integration Tests', () => {
 
     await waitFor(() => expect(screen.getByText('John Doe')).toBeInTheDocument());
 
-    // Click the Select button instead of the patient name
     const selectButtons = screen.getAllByRole('button', { name: /Select/i });
     await user.click(selectButtons[0]);
     
-    // Check for consultation section (it shows "Consultation with John Doe")
     await waitFor(() => expect(screen.getByText(/Consultation with John Doe/i)).toBeInTheDocument());
-
-    // Fill prescription
     await user.type(screen.getByPlaceholderText('Medicine'), 'Paracetamol');
     await user.type(screen.getByPlaceholderText('Dosage'), '500mg');
     await user.type(screen.getByPlaceholderText('Duration'), '5 days');
@@ -259,7 +255,7 @@ describe('Doctor Components - Integration Tests', () => {
     
     await waitFor(() => expect(screen.getByText('Patient History')).toBeInTheDocument());
 
-    // Close the history modal and test edit
+    
     const closeButtons = screen.getAllByRole('button', { name: '×' });
     if (closeButtons.length > 0) {
       await user.click(closeButtons[0]);
@@ -268,7 +264,6 @@ describe('Doctor Components - Integration Tests', () => {
     const editButtons = screen.getAllByRole('button', { name: /Edit Info/i });
     await user.click(editButtons[0]);
     
-    // The EditPatient component might show different text, adjust as needed
     await waitFor(() => {
       expect(screen.getByText(/Edit Patient/i) || screen.getByText(/Alice Brown/i)).toBeInTheDocument();
     });
@@ -295,7 +290,7 @@ describe('Doctor Components - Integration Tests', () => {
     expect(screen.getByRole('link', { name: /Consultations/i })).toBeInTheDocument();
   });
 
-    // ========== PatientHistory Tests ==========
+    //PatientHistory Tests
   test('renders PatientHistory and displays patient list', async () => {
     const mockPatients = [
       { patient_id: 'P001', full_name: 'John Doe', profile: 'patient1' },
@@ -367,7 +362,7 @@ describe('Doctor Components - Integration Tests', () => {
 
     fetch
       .mockResolvedValueOnce({ ok: true, json: async () => mockPatients })
-      .mockResolvedValueOnce(new Promise(() => {})); // Never resolve to test loading
+      .mockResolvedValueOnce(new Promise(() => {}));
 
     render(
       <BrowserRouter>
@@ -451,7 +446,7 @@ describe('Doctor Components - Integration Tests', () => {
     const patientItem = screen.getByText('John Doe');
     await user.click(patientItem);
 
-    // Should show no history available when API fails
+  
     await waitFor(() => {
       expect(screen.getByText('No history available')).toBeInTheDocument();
     });

@@ -1,9 +1,8 @@
-// src/__tests__/AdminAll.test.jsx
 import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { BrowserRouter } from 'react-router-dom';
-import { AuthProvider } from '../components/AuthContext'; // Adjust path if needed
+import { AuthProvider } from '../components/AuthContext'; 
 import AdminHeader from '../components/AdminHeader';
 import AdminHome from '../components/AdminHome';
 import ManageStock from '../components/ManageStock';
@@ -45,7 +44,7 @@ jest.mock('../components/AuthContext', () => ({
   }),
 }));
 
-// Spy on console.log
+
 beforeAll(() => {
   jest.spyOn(console, 'log').mockImplementation(() => {});
 });
@@ -172,9 +171,9 @@ describe('Admin Components - Integration Tests', () => {
       { medicine_id: 2, name: 'Med2', category: 'Cat2', description: 'Desc2', stock: 20, price: 15, expiry_date: '2025-02-01' },
     ];
 
-    fetch.mockResolvedValueOnce({ ok: true, json: async () => mockMedicines }); // Initial fetch
-    fetch.mockResolvedValueOnce({ ok: true }); // Stock update
-    fetch.mockResolvedValueOnce({ ok: true }); // Delete
+    fetch.mockResolvedValueOnce({ ok: true, json: async () => mockMedicines });
+    fetch.mockResolvedValueOnce({ ok: true });
+    fetch.mockResolvedValueOnce({ ok: true });
     fetch.mockResolvedValueOnce({ ok: true, json: async () => ({ message: 'Medicine added successfully' }) }); // Add
 
     render(
@@ -190,23 +189,23 @@ describe('Admin Components - Integration Tests', () => {
       expect(screen.getByText('Med2')).toBeInTheDocument();
     });
 
-    // Stock increase
+    //increasing stock
     await user.click(screen.getAllByRole('button', { name: /Restock \+10/i })[0]);
     await waitFor(() => expect(fetch).toHaveBeenCalledWith(expect.stringContaining('/stock'), expect.objectContaining({ method: 'PUT' })));
 
-    // Delete
+   //deleting
     await user.click(screen.getAllByRole('button', { name: /Delete/i })[0]);
     expect(screen.getByText('Are you sure you want to delete this medicine?')).toBeInTheDocument();
     await user.click(screen.getByRole('button', { name: 'Yes, Delete' }));
     await waitFor(() => expect(fetch).toHaveBeenCalledWith(expect.stringContaining('/medicines/'), expect.objectContaining({ method: 'DELETE' })));
 
-    // Add medicine
+    //adding
     await user.type(screen.getByPlaceholderText('Medicine Name'), 'New Med');
     await user.type(screen.getByPlaceholderText('Category'), 'New Cat');
     await user.type(screen.getByPlaceholderText('Description'), 'New Desc');
     await user.type(screen.getByPlaceholderText('Stock (e.g., 50)'), '100');
     await user.type(screen.getByPlaceholderText('Price (e.g., 20)'), '25');
-    await user.type(screen.getByPlaceholderText('Expiry Date'), '2025-12-31'); // Assuming it's a text input for date
+    await user.type(screen.getByPlaceholderText('Expiry Date'), '2025-12-31');
 
     await user.click(screen.getByRole('button', { name: 'Add Medicine' }));
     await waitFor(() => expect(fetch).toHaveBeenCalledWith(expect.stringContaining('/medicinesadd'), expect.objectContaining({ method: 'POST' })));
@@ -281,7 +280,6 @@ describe('Admin Components - Integration Tests', () => {
     });
   });
 
-  // Footer Tests
   test('renders footer with contact info', () => {
     render(<Footer />);
 

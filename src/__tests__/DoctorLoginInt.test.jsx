@@ -16,19 +16,15 @@ jest.mock('react-router-dom', () => ({
 }));
 
 // Mock localStorage
-const localStorageMock = {
+global.localStorage = {
   getItem: jest.fn(),
   setItem: jest.fn(),
   removeItem: jest.fn(),
   clear: jest.fn(),
 };
-global.localStorage = localStorageMock;
 
 describe('DoctorLogin Component Integration Tests', () => {
   beforeEach(() => {
-    fetch.mockClear();
-    mockNavigate.mockClear();
-    localStorage.setItem.mockClear();
     jest.clearAllMocks();
   });
 
@@ -75,7 +71,6 @@ describe('DoctorLogin Component Integration Tests', () => {
       contact_number: '1234567890'
     };
 
-    // Mock successful API response
     fetch.mockResolvedValueOnce({
       ok: true,
       json: async () => ({ doctor: mockDoctor })
@@ -89,14 +84,10 @@ describe('DoctorLogin Component Integration Tests', () => {
       </BrowserRouter>
     );
 
-    // Fill out the form
     await user.type(screen.getByPlaceholderText(/email/i), 'doctor@test.com');
     await user.type(screen.getByPlaceholderText(/password/i), 'doctor123');
-
-    // Submit the form
     await user.click(screen.getByRole('button', { name: /login/i }));
 
-    // Verify API call
     await waitFor(() => {
       expect(fetch).toHaveBeenCalledWith('http://localhost:3002/doctor/login', {
         method: 'POST',
@@ -106,31 +97,21 @@ describe('DoctorLogin Component Integration Tests', () => {
           password: 'doctor123'
         })
       });
-    });
-
-    // Verify localStorage was called
-    await waitFor(() => {
       expect(localStorage.setItem).toHaveBeenCalledWith(
         'doctor',
         JSON.stringify(mockDoctor)
       );
-    });
-
-    // Verify navigation
-    await waitFor(() => {
       expect(mockNavigate).toHaveBeenCalledWith('/doctor/D123');
     });
   });
 
   test('failed doctor login shows alert', async () => {
     const user = userEvent.setup();
-    // Mock failed API response
     fetch.mockResolvedValueOnce({
       ok: false,
       json: async () => ({})
     });
 
-    // Mock window.alert
     global.alert = jest.fn();
 
     render(
@@ -143,10 +124,17 @@ describe('DoctorLogin Component Integration Tests', () => {
 
     await user.type(screen.getByPlaceholderText(/email/i), 'wrong@test.com');
     await user.type(screen.getByPlaceholderText(/password/i), 'wrongpass');
-
     await user.click(screen.getByRole('button', { name: /login/i }));
 
     await waitFor(() => {
+      expect(fetch).toHaveBeenCalledWith('http://localhost:3002/doctor/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: 'wrong@test.com',
+          password: 'wrongpass'
+        })
+      });
       expect(global.alert).toHaveBeenCalledWith('Invalid credentials');
     });
   });

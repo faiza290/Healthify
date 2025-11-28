@@ -97,7 +97,7 @@ describe('Patient Components - Integration Tests', () => {
     });
   });
 
-  // ========== AmbulanceHomePage Tests ==========
+  //AmbulanceHomePage Tests
   test('renders AmbulanceHomePage and handles ambulance call', async () => {
     fetch.mockResolvedValueOnce({
       ok: true,
@@ -152,7 +152,7 @@ describe('Patient Components - Integration Tests', () => {
 
   
 
-  // ========== BookAppointment Tests ==========
+  //BookAppointment Tests
   test('renders BookAppointment and filters doctors', async () => {
     const mockDoctors = [
       { full_name: 'Dr. Alice', specialization: 'Cardiology', doctor_id: 'D001' },
@@ -196,7 +196,7 @@ describe('Patient Components - Integration Tests', () => {
     });
   });
 
-  // ========== ArticlePage Tests ==========
+  // ArticlePage Tests 
   test('renders ArticlePage with specific article content', () => {
     require('react-router-dom').useParams.mockReturnValue({ id: '1' });
 
@@ -226,7 +226,7 @@ describe('Patient Components - Integration Tests', () => {
     expect(screen.getByText(/Article not found/i)).toBeInTheDocument();
   });
 
-  // ========== ConfirmAppointment Tests ==========
+  //ConfirmAppointment Tests 
   test('renders ConfirmAppointment and handles booking', async () => {
     require('react-router-dom').useParams.mockReturnValue({ id: 'D001' });
     require('react-router-dom').useLocation.mockReturnValue({
@@ -275,7 +275,7 @@ describe('Patient Components - Integration Tests', () => {
     });
   });
 
-  // ========== PatientReport Tests ==========
+  //PatientReport Tests 
 test('renders PatientReport and displays pending reports', () => {
   render(
     <BrowserRouter>
@@ -338,19 +338,13 @@ test('PatientReport handles back button click', async () => {
       </AuthProvider>
     </BrowserRouter>
   );
-
-  // Click view report
   const viewButtons = screen.getAllByRole('button', { name: /View Report/i });
   await user.click(viewButtons[0]);
-
-  // Verify we're in report details view
   expect(screen.getByText(/Lab Test Report: Maham Farooqi/i)).toBeInTheDocument();
 
-  // Click back button
   const backButton = screen.getByRole('button', { name: /Back to Reports/i });
   await user.click(backButton);
 
-  // Verify we're back to reports list
   expect(screen.getByText('Pending Reports')).toBeInTheDocument();
 });
 
@@ -423,7 +417,7 @@ test('PatientReport displays all patient information in report details', async (
     });
   });
 
-  // ========== MedicineCheckout Tests ==========
+  // MedicineCheckout Tests 
   test('renders MedicineCheckout and handles order completion', async () => {
     require('react-router-dom').useLocation.mockReturnValue({
       search: '?item=' + encodeURIComponent(JSON.stringify({
@@ -463,7 +457,6 @@ test('PatientReport displays all patient information in report details', async (
       pathname: '/checkout'
     });
 
-    // Mock alert
     global.alert = jest.fn();
 
     render(
@@ -533,7 +526,7 @@ test('PatientReport displays all patient information in report details', async (
     expect(screen.getByText('Total Cost')).toBeInTheDocument();
   });
 
-  // ========== BookLabTest Tests ==========
+  //BookLabTest Tests 
   test('renders BookLabTest and handles lab test booking', async () => {
     require('react-router-dom').useParams.mockReturnValue({ id: 'P101' });
 
@@ -595,7 +588,7 @@ test('PatientReport displays all patient information in report details', async (
     });
   });
 
-  // ========== ArticlesHomePage Tests ==========
+  //  ArticlesHomePage Tests 
   test('renders ArticlesHomePage and filters articles', async () => {
     render(
       <BrowserRouter>
@@ -628,7 +621,7 @@ test('PatientReport displays all patient information in report details', async (
     expect(screen.getByText(/No articles found/i)).toBeInTheDocument();
   });
 
-  // ========== MedicineHomePage Tests ==========
+  //  MedicineHomePage Tests 
   test('renders MedicineHomePage and displays medicines', async () => {
     const mockMedicines = [
       { medicine_id: 1, name: 'Paracetamol', category: 'Painkiller', description: 'Pain relief', stock: 100, price: 5 },
@@ -722,7 +715,7 @@ test('PatientReport displays all patient information in report details', async (
     });
   });
 
-  // ========== AmbulanceConfirmation Tests ==========
+  //  AmbulanceConfirmation Tests 
   test('renders AmbulanceConfirmation with static data', () => {
     render(
       <BrowserRouter>
@@ -736,7 +729,7 @@ test('PatientReport displays all patient information in report details', async (
     expect(screen.getByText(/C1/i)).toBeInTheDocument();
   });
 
-  // ========== PatientAppointmentsHome Tests ==========
+  //  PatientAppointmentsHome Tests 
   test('renders PatientAppointmentsHome and displays appointments', async () => {
     const mockAppointments = [
       {
@@ -851,12 +844,11 @@ test('PatientReport displays all patient information in report details', async (
     );
 
     await waitFor(() => {
-      // The table should still render with headers but no data rows
       expect(screen.getByText(/Appointment ID/i)).toBeInTheDocument();
     });
   });
 
-  // ========== PatientProfile Tests ==========
+  //  PatientProfile Tests 
   test('renders PatientProfile and displays fetched profile', async () => {
     const mockProfile = {
       full_name: 'John Doe',
@@ -896,7 +888,9 @@ test('PatientReport displays all patient information in report details', async (
 
     expect(screen.getByText(/User ID not found/i)).toBeInTheDocument();
   });
-  // ========== RescheduleLabTest Tests ==========
+
+
+  //  RescheduleLabTest Tests 
   test('renders RescheduleLabTest with correct ID', () => {
     require('react-router-dom').useParams.mockReturnValue({ id: 'L001' });
 
@@ -940,31 +934,35 @@ test('PatientReport displays all patient information in report details', async (
   });
 
   test('RescheduleLabTest handles submission failure', async () => {
-    require('react-router-dom').useParams.mockReturnValue({ id: 'L001' });
-    fetch.mockResolvedValueOnce({ ok: false });
+  const { toast } = require('react-toastify');
+  
+  require('react-router-dom').useParams.mockReturnValue({ id: 'L001' });
+  fetch.mockResolvedValueOnce({ ok: false });
 
-    render(
-      <BrowserRouter>
-        <AuthProvider>
-          <RescheduleLabTest />
-        </AuthProvider>
-      </BrowserRouter>
-    );
+  render(
+    <BrowserRouter>
+      <AuthProvider>
+        <RescheduleLabTest />
+      </AuthProvider>
+    </BrowserRouter>
+  );
 
-    const dateInput = document.querySelector('input[type="date"]');
-    if (dateInput) {
-      await user.type(dateInput, '2025-01-01');
-    }
+  const dateInput = document.querySelector('input[type="date"]');
+  if (dateInput) {
+    await user.type(dateInput, '2025-01-01');
+  }
 
-    const submitButton = screen.getByRole('button', { name: /Reschedule Lab Test/i });
-    await user.click(submitButton);
+  const submitButton = screen.getByRole('button', { name: /Reschedule Lab Test/i });
+  await user.click(submitButton);
 
-    await waitFor(() => {
-      expect(fetch).toHaveBeenCalledTimes(1);
-    });
+  await waitFor(() => {
+    expect(fetch).toHaveBeenCalledTimes(1);
+    expect(toast.error).toHaveBeenCalledWith("Unable to reschedule!");
+    expect(toast.success).not.toHaveBeenCalled();
   });
+});
 
-  // ========== RescheduleAppointment Tests ==========
+  //  RescheduleAppointment Tests 
   test('renders RescheduleAppointment with correct ID', () => {
     require('react-router-dom').useParams.mockReturnValue({ id: 'A001' });
     require('react-router-dom').useLocation.mockReturnValue({
@@ -1028,7 +1026,7 @@ test('PatientReport displays all patient information in report details', async (
     });
   });
 
-  // ========== ViewLabReportsHome Tests ==========
+  //  ViewLabReportsHome Tests 
   test('renders ViewLabReportsHome and displays lab reports', async () => {
     const mockReports = {
       readyReports: [
@@ -1090,7 +1088,7 @@ test('PatientReport displays all patient information in report details', async (
     });
   });
 
-  // ========== PatientLabTests Tests ==========
+  //  PatientLabTests Tests 
   test('renders PatientLabTests and displays lab tests', async () => {
     const mockLabTests = [
       {
@@ -1175,7 +1173,7 @@ test('PatientReport displays all patient information in report details', async (
     });
   });
 
-  // ========== PatientLabTestReport Tests ==========
+  //  PatientLabTestReport Tests 
   test('renders PatientLabTestReport with lab test data', async () => {
     require('react-router-dom').useParams.mockReturnValue({ id: 'R001' });
     require('react-router-dom').useLocation.mockReturnValue({
@@ -1252,7 +1250,7 @@ test('PatientReport displays all patient information in report details', async (
     expect(screen.getByText(/Loading/i)).toBeInTheDocument();
   });
 
-  // ========== Error Handling Tests ==========
+  //  Error Handling Tests 
   test('PatientProfile handles fetch error gracefully', async () => {
     fetch.mockRejectedValueOnce(new Error('Network error'));
 
@@ -1269,7 +1267,7 @@ test('PatientReport displays all patient information in report details', async (
     });
   });
 
-    // ========== HomePage Tests ==========
+    //  HomePage Tests 
   test('renders HomePage with all main sections', () => {
     render(
       <BrowserRouter>
@@ -1429,20 +1427,4 @@ test('PatientReport displays all patient information in report details', async (
 
     expect(window.location.href).toBe('/articles');
   });
-
-  // test('PatientAppointmentsHome handles fetch error gracefully', async () => {
-  //   fetch.mockRejectedValueOnce(new Error('Network error'));
-
-  //   render(
-  //     <BrowserRouter>
-  //       <AuthProvider>
-  //         <PatientAppointmentsHome />
-  //       </AuthProvider>
-  //     </BrowserRouter>
-  //   );
-
-  //   await waitFor(() => {
-  //     expect(fetch).toHaveBeenCalledTimes(1);
-  //   });
-  // });
-}); // Added closing bracket for describe block
+});
